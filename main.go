@@ -15,12 +15,11 @@ func main() {
 		metrics.GetMetrics()
 		promhttp.Handler().ServeHTTP(w, r)
 	})
-	//http.Handle("/metrics", promhttp.Handler())
 	port := ":9100"
-	fmt.Printf("Exporter HTTP sunucusu %s portunda çalışıyor...\n", port)
+	fmt.Printf("Exporter HTTP running %s port...\n", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		fmt.Printf("HTTP sunucusu başlatılamadı: %v\n", err)
+		fmt.Printf("HTTP Server not started: %v\n", err)
 		os.Exit(1)
 	}
 }

@@ -10,41 +10,37 @@ func LicenseCounters() {
 
 	apiEndpoint = os.Getenv("API_ENDPOINT")
 	if apiEndpoint == "" {
-		fmt.Println("API_ENDPOINT çevresel değişkeni belirtilmedi.")
+		fmt.Println("API_ENDPOINT not read env")
 		os.Exit(1)
 	}
-	// API'den veri çekme işlemi burada yapılır
+
 	data, err := fetchData(apiEndpoint + "/api/dashboard/packagesPerLicense")
 	if err != nil {
-		fmt.Printf("API'den veri çekilemedi: %v\n", err)
+		fmt.Printf("Failed to retrieve data from API: %v\n", err)
 		return
 	}
 
-	// JSON verisini parse et
 	var packagesPerLicense []map[string]interface{}
 	err = json.Unmarshal(data, &packagesPerLicense)
 	if err != nil {
-		fmt.Printf("JSON verisi parse edilemedi: %v\n", err)
+		fmt.Printf("JSON data could not be parsed: %v\n", err)
 		return
 	}
-
-	// Metrikleri güncelle
 	licenseMetric.Reset()
 
 	for _, v := range packagesPerLicense {
 		license, ok := v["license"].(string)
 		if !ok {
-			fmt.Println("Zafiyet packagesPerLicense değeri okunamadı.")
+			fmt.Println("License value was not read in packagesPerLicense.")
 			continue
 		}
 
 		perLicense, ok := v["count"].(float64)
 		if !ok {
-			fmt.Println("Zafiyet license değeri okunamadı.")
+			fmt.Println("Count value was not read in packagesPerLicense.")
 			continue
 		}
 
-		// Metrikleri güncelle
 		licenseMetric.WithLabelValues(license).Set(perLicense)
 	}
 }

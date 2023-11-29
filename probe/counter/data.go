@@ -22,7 +22,7 @@ var (
 	vulnFixMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_vuln_fix",
-			Help: "Total Count of Vulnerabilities",
+			Help: "Total Count of Fix Vulnerabilities",
 		},
 		[]string{"severity"},
 	)
@@ -30,7 +30,7 @@ var (
 	applicationsMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_applications",
-			Help: "Toplam uygulama sayısı",
+			Help: "Total Count of Applications",
 		},
 		[]string{},
 	)
@@ -38,7 +38,7 @@ var (
 	packagesMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_packages",
-			Help: "Toplam paket sayısı",
+			Help: "Total Count of Packages",
 		},
 		[]string{},
 	)
@@ -46,7 +46,7 @@ var (
 	resourcesMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_resources",
-			Help: "Toplam kaynak sayısı",
+			Help: "Total Count of Resources",
 		},
 		[]string{},
 	)
@@ -54,7 +54,7 @@ var (
 	licenseMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_license",
-			Help: "Total Count of Vulnerabilities",
+			Help: "Total Count of License",
 		},
 		[]string{"license"},
 	)
@@ -62,7 +62,7 @@ var (
 	langMetric = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "kc_counter_language",
-			Help: "Total Count of Vulnerabilities",
+			Help: "Total Count of Language",
 		},
 		[]string{"language"},
 	)

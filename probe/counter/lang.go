@@ -7,45 +7,40 @@ import (
 )
 
 func LangCounters() {
-	//prometheus.MustRegister(langMetric)
 
 	apiEndpoint = os.Getenv("API_ENDPOINT")
 	if apiEndpoint == "" {
-		fmt.Println("API_ENDPOINT çevresel değişkeni belirtilmedi.")
+		fmt.Println("API_ENDPOINT not read env")
 		os.Exit(1)
 	}
-	// API'den veri çekme işlemi burada yapılır
 	data, err := fetchData(apiEndpoint + "/api/dashboard/packagesPerLanguage")
 	if err != nil {
-		fmt.Printf("API'den veri çekilemedi: %v\n", err)
+		fmt.Printf("Failed to retrieve data from API: %v\n", err)
 		return
 	}
 
-	// JSON verisini parse et
 	var packagesPerLanguage []map[string]interface{}
 	err = json.Unmarshal(data, &packagesPerLanguage)
 	if err != nil {
-		fmt.Printf("JSON verisi parse edilemedi: %v\n", err)
+		fmt.Printf("JSON data could not be parsed: %v\n", err)
 		return
 	}
 
-	// Metrikleri güncelle
 	langMetric.Reset()
 
 	for _, v := range packagesPerLanguage {
 		language, ok := v["language"].(string)
 		if !ok {
-			fmt.Println("Zafiyet packagesPerLanguage değeri okunamadı.")
+			fmt.Println("Language value was not read in packagesPerLanguage.")
 			continue
 		}
 
 		perLanguage, ok := v["count"].(float64)
 		if !ok {
-			fmt.Println("Zafiyet license değeri okunamadı.")
+			fmt.Println("Count value was not read in packagesPerLanguage.")
 			continue
 		}
 
-		// Metrikleri güncelle
 		langMetric.WithLabelValues(language).Set(perLanguage)
 	}
 }
