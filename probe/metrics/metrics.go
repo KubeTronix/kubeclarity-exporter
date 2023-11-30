@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"kubetronix/probe/application"
 	counter "kubetronix/probe/counter"
 )
 
@@ -9,4 +10,5 @@ func GetMetrics() {
 	counter.VulnCounters()
 	counter.LicenseCounters()
 	counter.LangCounters()
+	application.NamespaceCounters()
 }
